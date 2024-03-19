@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.123.8">
+    <meta name="generator" content="Relearn 5.19.0+tip">
+    <meta name="description" content="FortiGate auto-scale and AWS GWLB">
+    <meta name="author" content="Fabio Gallego - Cloud CSE">
+    <title>2. Hands-on :: FortiGate auto-scale and AWS GWLB</title>
+    <link href="https://fortilatam.github.io/demohandson.html" rel="canonical" type="text/html" title="2. Hands-on :: FortiGate auto-scale and AWS GWLB">
+    <link href="/demohandson/index.xml" rel="alternate" type="application/rss+xml" title="2. Hands-on :: FortiGate auto-scale and AWS GWLB">
+    <link href="/images/logo.svg?1710878531" rel="icon" type="image/svg+xml">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="/css/fontawesome-all.min.css?1710878532" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1710878532" rel="stylesheet"></noscript>
+    <link href="/css/nucleus.css?1710878532" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710878532" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1710878532" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1710878532" rel="stylesheet">
+    <link href="/css/fonts.css?1710878532" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1710878532" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1710878532" rel="stylesheet">
+    <link href="/css/theme-Workshop.css?1710878532" rel="stylesheet" id="variant-style">
+    <link href="/css/variant.css?1710878532" rel="stylesheet">
+    <link href="/css/print.css?1710878532" rel="stylesheet" media="print">
+    <link href="/css/format-print.css?1710878532" rel="stylesheet">
+    <link href="/css/ie.css?1710878532" rel="stylesheet">
+    <script src="/js/url.js?1710878532"></script>
+    <script src="/js/variant.js?1710878532"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="/index.search.js";
+      var root_url="/";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/fortilatam.github.io/';
+      window.variants && variants.init( [ 'Workshop' ] );
+    </script><style>
+  :root {
+     
+    --fortinet-white: 255, 255, 255;
+    --fortinet-black: 0, 0, 0;
+    --fortinet-red: 218, 41, 28;
+    --fortinet-blue: 48, 127, 226;
+    --fortinet-green: 72, 213, 151;
+    --fortinet-teel: 44, 204, 211;
+    --fortinet-purple: 144, 99, 205;
+    --fortinet-silver: 162, 178, 200;
+    --fortinet-silver-jeffMAC: 159, 178, 199;
+    --fortinet-silver70: 77, 92, 102;
+    --fortinet-lightgray: 228, 228, 228;
+    --fortinet-gray: 179, 179, 179;
+
+    --PRIMARY-color: rgb(var(--theme-color)) !important;
+    --MAIN-BG-color: rgb(var(--fortinet-white)) !important;
+    --MAIN-TEXT-color: rgb(var(--fortinet-black)) !important;
+    --MAIN-font: inter, sans-serif;
+
+    --MAIN-LINK-color: #1C90F3 !important;
+     
+    --LINK-HOVER-color: #167ad0 !important;
+     
+
+    --MENU-SECTIONS-ACTIVE-BG-color: rgb(var(--fortinet-black)) !important;
+    --MENU-SECTIONS-BG-color: #312525;
+     
+    --MENU-SECTIONS-LINK-color: #ccc !important;
+    --MENU-SECTIONS-LINK-HOVER-color: #e6e6e6 !important;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #777;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #fff;
+     
+
+    --MENU-HEADER-BG-color: rgb(var(--theme-color)) !important;
+    --MENU-SEARCH-color: rgba(var(--fortinet-white)) !important;
+    --MENU-VISITED-color: rgb(var(--theme-color)) !important;
+
+     
+    --MENU-HOME-LINK-color: #ccc !important;
+     
+    --MENU-HOME-LINK-HOVER-color: rgba(var(--fortinet-white)) !important;
+     
+
+     
+    --BOX-WARNING-color: rgb(var(--fortinet-red)) !important;
+    --BOX-NOTE-color: rgb(var(--fortinet-teel)) !important;
+    --BOX-TIP-color: rgb(var(--fortinet-green)) !important;
+    --BOX-INFO-color: rgb(var(--fortinet-blue)) !important;
+
+     
+    --CODE-BLOCK-color: #e2e4e5 !important;
+     
+    --CODE-BLOCK-BG-color: rgb(var(--fortinet-gray)) !important;
+     
+    --CODE-BLOCK-BORDER-color: #282a36 !important;
+     
+
+     
+    --CODE-INLINE-color: #5e5e5e !important;
+     
+    --CODE-INLINE-BG-color: #fffae9 !important;
+     
+    --CODE-INLINE-BORDER-color: #f8e8c8 !important;
+     
+
+    --BROWSER-theme: light;
+     
+    --MERMAID-theme: default;
+     
+    --SWAGGER-theme: light;
+     
+  }
+
+  ::placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+    opacity: 1;
+     
+  }
+
+  :-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  ::-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #title {
+    font-size: 1.5rem;
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #subtitle {
+    font-size: 1rem;
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #sidebar .searchbox> :first-child,
+  #sidebar .searchbox button,
+  .searchbox span {
+    opacity: 1;
+  }
+
+  .searchbox {
+    border: 1px solid rgba(var(--theme-color), .85) !important;
+  }
+
+  .searchbox input {
+    background: rgba(var(--theme-color), .75) !important;
+  }
+
+  #header #logo {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 1300px) {
+
+     
+    #body .flex-block-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1300px;
+      width: 100%;
+    }
+  }
+</style>
+  </head>
+  <body class="mobile-support print" data-url="/demohandson.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/index.html"><span itemprop="name">1. Introduction</span></a><meta itemprop="position" content="1"> &gt; </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">2. Hands-on</span><meta itemprop="position" content="2"></li>
+            </ol>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="2-hands-on">2. Hands-on</h1>
+
+<p>Remembering AWS diagram:
+
+<a href="#image-43c2fe81cf179b3389dc7e3c7e0d3420" class="lightbox-link">
+<img src="/demohandson/diagram-1-doc.png" alt="diagram 1 doc" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-43c2fe81cf179b3389dc7e3c7e0d3420">
+<img src="/demohandson/diagram-1-doc.png" alt="diagram 1 doc" class="lightbox-image" loading="lazy">
+</a>
+In this demo, all these components are already setup.</p>
+<p>We have:</p>
+<ul>
+<li>FortiGate VM in two auto-scale groups: ASG FFlex (fgt_byol_asg: using FortiFlex licenses) and ASG PAYG (fgt_on_demand_asg: using PAYG FortiGate VMs)</li>
+<li>Routing is configured for 2 AZs (availability zones) but we will use only us-east-1a</li>
+<li>There are EC2 instances in every subnet that you will use</li>
+<li>The VPC <strong>Pub-testing-vpc</strong> is <strong>not</strong> connected with the other VPCs. You will use the EC2 hosted there to run attacks. It simulates an attack coming from internet</li>
+</ul>
+
+            <footer class="footline">
+
+            </footer>
+          </article>
+
+          <section>
+            <h1 class="a11y-only">Subsections of 2. Hands-on</h1>
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="start-the-resources">Start the resources</h1>
+
+<p>Every night (GMT-3 timezone) the EC2 instances are shutdown to save money and the FortiGate ASGs are set to zero, so if you enter in the AWS account is probably that there is somebody else using it, <em>because I doubt somebody used the environment and forgot to shutdown, right?</em> :D</p>
+<p>So, the first thing you will need to do, after logged into AWS account, is:</p>
+<h3 id="bring-fortigate-vm-up">Bring FortiGate VM up</h3>
+<ol>
+<li>
+<p>Make sure you are in N. Virginia region
+
+<a href="#image-53c42dc0e20c34bb3ecad5f789e67ddd" class="lightbox-link">
+<img src="/demohandson/31_starttheresources.html/3_image1.png" alt="3 image1" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-53c42dc0e20c34bb3ecad5f789e67ddd">
+<img src="/demohandson/31_starttheresources.html/3_image1.png" alt="3 image1" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Type EC2 in search box and click on it
+
+<a href="#image-030be7ba47552295868edda729d6ffc2" class="lightbox-link">
+<img src="/demohandson/31_starttheresources.html/3_image2.png" alt="3 image2" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-030be7ba47552295868edda729d6ffc2">
+<img src="/demohandson/31_starttheresources.html/3_image2.png" alt="3 image2" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Scroll down to &ldquo;Auto Scaling Groups&rdquo; menu. Click on it and select the &ldquo;fgt_byol_asg&rdquo;</p>
+</li>
+<li>
+<p>Click &ldquo;Edit&rdquo;
+
+<a href="#image-e4be2c7bd4c8b9704cbd88f8fb9e3754" class="lightbox-link">
+<img src="/demohandson/31_starttheresources.html/3_image3.png" alt="3 image3" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-e4be2c7bd4c8b9704cbd88f8fb9e3754">
+<img src="/demohandson/31_starttheresources.html/3_image3.png" alt="3 image3" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Set &ldquo;Desired Capacity&rdquo; at 1 and click &ldquo;Update&rdquo;
+
+<a href="#image-455ced4efb07d505bfaef3ee55708880" class="lightbox-link">
+<img src="/demohandson/31_starttheresources.html/3_image4.png" alt="3 image4" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-455ced4efb07d505bfaef3ee55708880">
+<img src="/demohandson/31_starttheresources.html/3_image4.png" alt="3 image4" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>With this only one FortiGate instance will be created. This is enough for the demo, in the real environment, it is recommended to have one per AZ used.</p>
+</li>
+<li>
+<p>Go to &ldquo;Instances&rdquo; menu. You will see a FortiGate instance running (wait 3-5 minutes before accessing it). In this process the FortiGate is being licensed using <a href="https://www.fortinet.com/products/fortiflex" target="_blank">FortiFlex</a></p>
+</li>
+<li>
+<p>In the same page, start the other instances. To do so, check all of them, click &ldquo;Instance state&rdquo; button and click on &ldquo;Start instance&rdquo;</p>
+</li>
+</ol>
+<p>
+<a href="#image-19083af4fdac21de0faa617a2cebd2c9" class="lightbox-link">
+<img src="/demohandson/31_starttheresources.html/3_image5.png" alt="3 image5" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-19083af4fdac21de0faa617a2cebd2c9">
+<img src="/demohandson/31_starttheresources.html/3_image5.png" alt="3 image5" class="lightbox-image" loading="lazy">
+</a>
+9. Now you are good to start the tasks</p>
+
+            <footer class="footline">
+
+            </footer>
+          </article>
+
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="/js/clipboard.min.js?1710878532" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1710878532" defer></script>
+    <script src="/js/theme.js?1710878532" defer></script>
+  </body>
+</html>

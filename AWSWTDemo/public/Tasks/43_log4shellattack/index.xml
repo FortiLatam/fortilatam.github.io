@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>3.3 IPS: Log4Shell attack on FortiGate auto-scale and AWS GWLB</title>
+    <link>https://fortilatam.github.io/tasks/43_log4shellattack.html</link>
+    <description>Recent content in 3.3 IPS: Log4Shell attack on FortiGate auto-scale and AWS GWLB</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://fortilatam.github.io/tasks/43_log4shellattack/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

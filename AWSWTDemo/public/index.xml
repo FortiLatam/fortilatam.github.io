@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>1. Introduction on FortiGate auto-scale and AWS GWLB</title>
+    <link>https://fortilatam.github.io/index.html</link>
+    <description>Recent content in 1. Introduction on FortiGate auto-scale and AWS GWLB</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://fortilatam.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1. Pre-requisites</title>
+      <link>https://fortilatam.github.io/prereq.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/prereq.html</guid>
+      <description>In this section we will step through the what is needed before you can get the most out of the rest of the walkthrough demo!</description>
+    </item>
+    <item>
+      <title>2. Hands-on</title>
+      <link>https://fortilatam.github.io/demohandson.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/demohandson.html</guid>
+      <description>Remembering AWS diagram: In this demo, all these components are already setup.
+We have:
+FortiGate VM in two auto-scale groups: ASG FFlex (fgt_byol_asg: using FortiFlex licenses) and ASG PAYG (fgt_on_demand_asg: using PAYG FortiGate VMs) Routing is configured for 2 AZs (availability zones) but we will use only us-east-1a There are EC2 instances in every subnet that you will use The VPC Pub-testing-vpc is not connected with the other VPCs. You will use the EC2 hosted there to run attacks.</description>
+    </item>
+    <item>
+      <title>3. Tasks</title>
+      <link>https://fortilatam.github.io/tasks.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/tasks.html</guid>
+      <description>These tasks were thinking of to demo some features of using FortiGate with gateway load balancer, but you can think in other tests.
+Feel free to explore the AWS routing tables, check TGW configuration, etc. If you have suggestions for other labs, that are not here or you don&amp;rsquo;t have permission to do it, please write a comment in the same Sharepoint page you got the credentials.
+There is no specific order to perform the tasks.</description>
+    </item>
+    <item>
+      <title>4. Clean up</title>
+      <link>https://fortilatam.github.io/cleanup.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/cleanup.html</guid>
+      <description>I hope this walkthrough demo helped you in someway.
+We are all responsible for saving money for the company, so please, before you go stop all the EC2 and set FortiGate ASG to 0.
+Stopping EC2 Open AWS Console Go to EC2 &amp;gt; Instances Check all the Instances and in &amp;ldquo;instance state&amp;rdquo; click &amp;ldquo;Stop instance&amp;rdquo; FortiGate ASG to 0 If you only stop the FortiGate instance the auto scaling group will start a new instance, so you need to change it as well In EC2 &amp;gt; scroll down to &amp;ldquo;Auto Scaling Groups&amp;rdquo; menu Select &amp;ldquo;fgt_byol_asg&amp;rdquo; and click &amp;ldquo;Edit&amp;rdquo; Set &amp;ldquo;Desired capacity&amp;rdquo; to 0 and click &amp;ldquo;Update&amp;rdquo; Now you are good to go!</description>
+    </item>
+  </channel>
+</rss>

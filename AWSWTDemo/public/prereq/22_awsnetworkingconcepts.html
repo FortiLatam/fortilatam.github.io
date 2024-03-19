@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.123.8">
+    <meta name="generator" content="Relearn 5.19.0+tip">
+    <meta name="description" content="FortiGate auto-scale and AWS GWLB">
+    <meta name="author" content="Fabio Gallego - Cloud CSE">
+    <title>1.2 AWS Networking Concepts :: FortiGate auto-scale and AWS GWLB</title>
+    <link href="/prereq/22_awsnetworkingconcepts/index.xml" rel="alternate" type="application/rss+xml" title="1.2 AWS Networking Concepts :: FortiGate auto-scale and AWS GWLB">
+    <link href="/prereq/22_awsnetworkingconcepts/index.print.html" rel="alternate" type="text/html" title="1.2 AWS Networking Concepts :: FortiGate auto-scale and AWS GWLB">
+    <link href="/images/logo.svg?1710878531" rel="icon" type="image/svg+xml">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="/css/fontawesome-all.min.css?1710878531" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1710878531" rel="stylesheet"></noscript>
+    <link href="/css/nucleus.css?1710878531" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710878531" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1710878531" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1710878531" rel="stylesheet">
+    <link href="/css/fonts.css?1710878531" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1710878531" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1710878531" rel="stylesheet">
+    <link href="/css/theme-Workshop.css?1710878531" rel="stylesheet" id="variant-style">
+    <link href="/css/variant.css?1710878531" rel="stylesheet">
+    <link href="/css/print.css?1710878531" rel="stylesheet" media="print">
+    <link href="/css/ie.css?1710878531" rel="stylesheet">
+    <script src="/js/url.js?1710878531"></script>
+    <script src="/js/variant.js?1710878531"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="/index.search.js";
+      var root_url="/";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/fortilatam.github.io/';
+      window.variants && variants.init( [ 'Workshop' ] );
+    </script><style>
+  :root {
+     
+    --fortinet-white: 255, 255, 255;
+    --fortinet-black: 0, 0, 0;
+    --fortinet-red: 218, 41, 28;
+    --fortinet-blue: 48, 127, 226;
+    --fortinet-green: 72, 213, 151;
+    --fortinet-teel: 44, 204, 211;
+    --fortinet-purple: 144, 99, 205;
+    --fortinet-silver: 162, 178, 200;
+    --fortinet-silver-jeffMAC: 159, 178, 199;
+    --fortinet-silver70: 77, 92, 102;
+    --fortinet-lightgray: 228, 228, 228;
+    --fortinet-gray: 179, 179, 179;
+
+    --PRIMARY-color: rgb(var(--theme-color)) !important;
+    --MAIN-BG-color: rgb(var(--fortinet-white)) !important;
+    --MAIN-TEXT-color: rgb(var(--fortinet-black)) !important;
+    --MAIN-font: inter, sans-serif;
+
+    --MAIN-LINK-color: #1C90F3 !important;
+     
+    --LINK-HOVER-color: #167ad0 !important;
+     
+
+    --MENU-SECTIONS-ACTIVE-BG-color: rgb(var(--fortinet-black)) !important;
+    --MENU-SECTIONS-BG-color: #312525;
+     
+    --MENU-SECTIONS-LINK-color: #ccc !important;
+    --MENU-SECTIONS-LINK-HOVER-color: #e6e6e6 !important;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #777;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #fff;
+     
+
+    --MENU-HEADER-BG-color: rgb(var(--theme-color)) !important;
+    --MENU-SEARCH-color: rgba(var(--fortinet-white)) !important;
+    --MENU-VISITED-color: rgb(var(--theme-color)) !important;
+
+     
+    --MENU-HOME-LINK-color: #ccc !important;
+     
+    --MENU-HOME-LINK-HOVER-color: rgba(var(--fortinet-white)) !important;
+     
+
+     
+    --BOX-WARNING-color: rgb(var(--fortinet-red)) !important;
+    --BOX-NOTE-color: rgb(var(--fortinet-teel)) !important;
+    --BOX-TIP-color: rgb(var(--fortinet-green)) !important;
+    --BOX-INFO-color: rgb(var(--fortinet-blue)) !important;
+
+     
+    --CODE-BLOCK-color: #e2e4e5 !important;
+     
+    --CODE-BLOCK-BG-color: rgb(var(--fortinet-gray)) !important;
+     
+    --CODE-BLOCK-BORDER-color: #282a36 !important;
+     
+
+     
+    --CODE-INLINE-color: #5e5e5e !important;
+     
+    --CODE-INLINE-BG-color: #fffae9 !important;
+     
+    --CODE-INLINE-BORDER-color: #f8e8c8 !important;
+     
+
+    --BROWSER-theme: light;
+     
+    --MERMAID-theme: default;
+     
+    --SWAGGER-theme: light;
+     
+  }
+
+  ::placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+    opacity: 1;
+     
+  }
+
+  :-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  ::-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #title {
+    font-size: 1.5rem;
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #subtitle {
+    font-size: 1rem;
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #sidebar .searchbox> :first-child,
+  #sidebar .searchbox button,
+  .searchbox span {
+    opacity: 1;
+  }
+
+  .searchbox {
+    border: 1px solid rgba(var(--theme-color), .85) !important;
+  }
+
+  .searchbox input {
+    background: rgba(var(--theme-color), .75) !important;
+  }
+
+  #header #logo {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 1300px) {
+
+     
+    #body .flex-block-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1300px;
+      width: 100%;
+    }
+  }
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/prereq/22_awsnetworkingconcepts.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div class="navigation">
+            <a class="nav nav-next topbar-link" href="/demohandson.html" title="2. Hands-on (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
+          </div>
+          <div class="navigation">
+            <a class="nav nav-prev topbar-link" href="/prereq/21_logistics.html" title="1.1 Demo Logistics (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
+          </div>
+          <div id="top-print-link">
+            <a class="print-link topbar-link" title='Print whole chapter (CTRL+ALT+p)' href="/prereq/22_awsnetworkingconcepts/index.print.html">
+              <i class="fas fa-print fa-fw"></i>
+            </a>
+          </div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <span id="toc-menu" title='Table of Contents (CTRL+ALT+t)'><i class="fas fa-list-alt fa-fw"></i></span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/index.html"><span itemprop="name">1. Introduction</span></a><meta itemprop="position" content="1"> &gt; </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/prereq.html"><span itemprop="name">1. Pre-requisites</span></a><meta itemprop="position" content="2"> &gt; </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">1.2 AWS Networking Concepts</span><meta itemprop="position" content="3"></li>
+            </ol>
+          </div>
+          <div class="default-animation progress">
+            <div class="toc-wrapper"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#check-this-example-to-understand-the-packet-walk-in-a-gwlb-deployment">Check this example to understand the packet walk in a GWLB deployment</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="12-aws-networking-concepts">1.2 AWS Networking Concepts</h1>
+
+<p>Before diving into the reference architecture in this demo, let&rsquo;s review core AWS networking concepts.</p>
+<p><strong>AWS Virtual Private Cloud (VPC)</strong> is a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways.</p>
+<p><strong>Availability Zones (AZ)</strong> are multiple, isolated locations within each Region that have independent power, cooling, physical security, etc. A VPC spans all of the AZs in the Region.</p>
+<p><strong>Region</strong>, is a collection of multiple AZs in a geographic location. The collection of AZs in the same region are all interconnected via redundant, ultra-low-latency networks.</p>
+<p>All <strong>subnets</strong> within a VPC are able to reach each other with the default or intrinsic router within the VPC. All resources in a subnet use the intrinsic router (1st host IP in each subnet) as the default gateway. Each subnet must be associated with a VPC route table, which specifies the allowed routes for outbound traffic leaving the subnet.</p>
+<p>An <strong>Internet Gateway (IGW)</strong> is a horizontally scaled, redundant, and highly available VPC component that allows communication between instances in your VPC and the internet. It therefore imposes no availability risks or bandwidth constraints on your network traffic.</p>
+<p>
+<a href="#image-7c5e7a5402ad6b7aa4d06606e99385a9" class="lightbox-link">
+<img src="22-image1.png" alt="22 image1" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-7c5e7a5402ad6b7aa4d06606e99385a9">
+<img src="22-image1.png" alt="22 image1" class="lightbox-image" loading="lazy">
+</a></p>
+<p><strong>AWS Transit Gateway (TGW)</strong> is a highly scalable cloud router that connects your VPCs in the same region to each other, to on-premise networks, and even to the internet through one hub. With the use of multiple route tables for a single TGW, you can design hub and spoke routing for traffic inspection and enforcement of security policy across multiple VPCs.</p>
+<p>
+<a href="#image-e4189ebe74817c51232b3f012b5e4def" class="lightbox-link">
+<img src="22-image2.png" alt="22 image2" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-e4189ebe74817c51232b3f012b5e4def">
+<img src="22-image2.png" alt="22 image2" class="lightbox-image" loading="lazy">
+</a></p>
+<p><strong>AWS (Gateway Load Balancer (GWLB)</strong> is a transparent network gateway that distributes traffic (in a 3/5 tuple flow aware manner) to a fleet of virtual appliances for inspection. This is a regional load balancer that uses GWLB endpoints (GWLBe) to securely intercept data plane traffic within consumer VPCs in the same region.</p>
+<p>
+<a href="#image-dd5699cb440ee3bbe9430d34f6797db3" class="lightbox-link">
+<img src="22-image3.png" alt="22 image3" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-dd5699cb440ee3bbe9430d34f6797db3">
+<img src="22-image3.png" alt="22 image3" class="lightbox-image" loading="lazy">
+</a></p>
+<p>In this demo you will use all these components to test FortiGate VM in an enterprise design.</p>
+<p>For a deep dive on AWS networking concepts in your own lab, outside of this event, you can follow the <a href="https://catalog.workshops.aws/networking/en-US" target="_blank"><strong>AWS Network Immersion Day workshop</strong></a> in your own AWS account at your leisure.</p>
+<h3 id="check-this-example-to-understand-the-packet-walk-in-a-gwlb-deployment">Check this example to understand the packet walk in a GWLB deployment</h3>
+<p>
+<a href="#image-bca82a256e0439bba6bbf16cbf37a9e8" class="lightbox-link">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image16.png" alt="" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-bca82a256e0439bba6bbf16cbf37a9e8">
+<img src="https://raw.githubusercontent.com/FortiLatam/aws-ql-netsec-pub/main/media/image16.png" alt="" class="lightbox-image" loading="lazy">
+</a></p>
+<p><strong>Packet walk</strong></p>
+<ol>
+<li>EC2 will check the route table for the more specific route. In this case 10.1.2.0/24 pointing to GWLBe-A</li>
+<li>Traffic arrives at GWBLe-A. Every time the traffic arrives at a GWLB endpoint it sends to the GWLB</li>
+<li>Traffic at GWLB will be forwarded to one member of the target group</li>
+<li>In this case we have only one FortiGate, so traffic arrives at FortiGate. It inspects the traffic and if allowed, send it back to GWLB</li>
+<li>GWLB sends the reply to GWLBe-A which originated the connection</li>
+<li>When traffic returns to GWLBe it checks its route table. For 10.1.0.0/24 it is &ldquo;local&rdquo;. So it sends directly.</li>
+<li>Traffic arrives at the final destination</li>
+</ol>
+<p>This concludes this section.</p>
+
+            <footer class="footline">
+
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="sidebar" class="default-animation showVisitedLinks">
+      <div id="header-wrapper" class="default-animation">
+        <div id="header" class="default-animation">
+<a id="logo" href='/index.html' title="Fortinet CSE Americas International">
+    
+    <img style="vertical-align:middle" src="/images/white-logo.svg" height="70px">
+    
+
+    
+        <logoBanner id="title"> FortiGate auto-scale and AWS GWLB </logoBanner>
+    
+
+        <logoBannerFreeForm id="subtitle"> Walkthrough demos </logoBannerFreeForm>
+</a>
+
+        </div>
+        <div class="searchbox default-animation">
+          <i class="fas fa-search" title="Search (CTRL+ALT+f)"></i>
+          <label class="a11y-only" for="search-by">Search</label>
+          <input data-search-input id="search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="/js/auto-complete.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.min.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.stemmer.support.min.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.multi.min.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.en.min.js?1710878531" defer></script>
+        <script src="/js/search.js?1710878531" defer></script>
+      </div>
+      <div id="content-wrapper" class="highlightable">
+        <ul class="topics enlarge morespace">
+          <li data-nav-id="/prereq.html" class="parent "><a class="padding" href="/prereq.html">1. Pre-requisites<i class="fas fa-check read-icon"></i></a><ul id="subsections-4e020f31de051a3c7c932827b5eff918" class="morespace">
+          <li data-nav-id="/prereq/21_logistics.html" class=""><a class="padding" href="/prereq/21_logistics.html">1.1 Demo Logistics<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/prereq/22_awsnetworkingconcepts.html" class="active"><a class="padding" href="/prereq/22_awsnetworkingconcepts.html">1.2 AWS Networking Concepts<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/demohandson.html" class=""><a class="padding" href="/demohandson.html">2. Hands-on<i class="fas fa-check read-icon"></i></a><ul id="subsections-cd6a46b98b02b9561f442de229483bd6" class="morespace">
+          <li data-nav-id="/demohandson/31_starttheresources.html" class=""><a class="padding" href="/demohandson/31_starttheresources.html">Start the resources<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/tasks.html" class=""><a class="padding" href="/tasks.html">3. Tasks<i class="fas fa-check read-icon"></i></a><ul id="subsections-2d24400f79d503e4a5f64201089f7b4c" class="morespace">
+          <li data-nav-id="/tasks/41_connectivityns.html" class=""><a class="padding" href="/tasks/41_connectivityns.html">3.1 Connectivity: North-South<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/tasks/42_connectivityew.html" class=""><a class="padding" href="/tasks/42_connectivityew.html">3.2 Connectivity: East-West<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/tasks/43_log4shellattack.html" class=""><a class="padding" href="/tasks/43_log4shellattack.html">3.3 IPS: Log4Shell attack<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/cleanup.html" class=""><a class="padding" href="/cleanup.html">4. Clean up<i class="fas fa-check read-icon"></i></a></li>
+        </ul>
+        <div id="shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://aws.amazon.com/marketplace/search/results?searchTerms=fortinet"><i class='fas fa-tools'></i> AWS MP Listings for Fortinet</a></li>
+            <li><a class="padding" href="https://fortinet.com/aws"><i class='far fa-lightbulb'></i> Fortinet's AWS Microsite</a></li>
+            <li><a class="padding" href="https://docs.fortinet.com/cloud-solutions/aws"><i class='far fa-lightbulb'></i> Fortinet in AWS Docs</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVisitedLinks showFooter"></div>
+        <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVisitedLinks showFooter">
+        <div id="prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVisitedLinks">
+          <ul>
+            <li id="select-language-container" class="footerLangSwitch">
+              <div class="padding menu-control">
+                <i class="fas fa-language fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="select-language">Language</label>
+                  <select id="select-language" onchange="location = baseUri + this.value;">
+                    <option lang="en" id="en" value="/prereq/22_awsnetworkingconcepts.html" selected></option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+            <li id="select-variant-container" class="footerVariantSwitch">
+              <div class="padding menu-control">
+                <i class="fas fa-paint-brush fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="select-variant">Theme</label>
+                  <select id="select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                    <option id="Workshop" value="Workshop" selected>Workshop</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.variants && variants.markSelectedVariant();</script>
+            </li>
+            <li class="footerVisitedLinks showVisitedLinks">
+              <div class="padding menu-control">
+                <i class="fas fa-history fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button onclick="clearHistory();">Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div id="footer" class="footerFooter showFooter"><style>
+	#footer {
+	  font-size: .8125rem;
+	  height: 6.25rem;
+	  margin-left: auto;
+	  margin-right: auto;
+	  padding: 2rem 1rem;
+	  text-align: center;
+	  min-width: 14.375rem;
+	  max-width: 18.75rem;
+	}
+	#footer p {
+	  margin: 0;
+	}
+  </style>
+
+<left>
+
+<a href="https://www.fortinet.com/corporate/about-us/privacy" target="_blank" rel="noreferrer noopener">Privacy</a> | <a
+href="https://www.fortinet.com/corporate/about-us/legal" target="_blank" rel="noreferrer noopener">Site Terms</a> | <a
+href="https://www.fortinet.com/corporate/about-us/about-us" target="_blank" rel="noreferrer noopener">About Us</a> | <a
+href="/auth?slo">Log out</a>
+
+</left>
+        </div>
+      </div>
+    </aside>
+    <script src="/js/clipboard.min.js?1710878531" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1710878531" defer></script>
+    <script src="/js/theme.js?1710878531" defer></script>
+  </body>
+</html>

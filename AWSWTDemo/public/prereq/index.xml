@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>1. Pre-requisites on FortiGate auto-scale and AWS GWLB</title>
+    <link>https://fortilatam.github.io/prereq.html</link>
+    <description>Recent content in 1. Pre-requisites on FortiGate auto-scale and AWS GWLB</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://fortilatam.github.io/prereq/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1.1 Demo Logistics</title>
+      <link>https://fortilatam.github.io/prereq/21_logistics.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/prereq/21_logistics.html</guid>
+      <description>Accessing an AWS environment WarningThis demo is for Fortinet employees only.
+To get the credentials, please access the CSE Americas International Sharepoint page.
+You will find the AWS credentials and login page.</description>
+    </item>
+    <item>
+      <title>1.2 AWS Networking Concepts</title>
+      <link>https://fortilatam.github.io/prereq/22_awsnetworkingconcepts.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/prereq/22_awsnetworkingconcepts.html</guid>
+      <description>Before diving into the reference architecture in this demo, let&amp;rsquo;s review core AWS networking concepts.
+AWS Virtual Private Cloud (VPC) is a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways.</description>
+    </item>
+  </channel>
+</rss>

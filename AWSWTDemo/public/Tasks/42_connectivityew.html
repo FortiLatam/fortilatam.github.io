@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.123.8">
+    <meta name="generator" content="Relearn 5.19.0+tip">
+    <meta name="description" content="FortiGate auto-scale and AWS GWLB">
+    <meta name="author" content="Fabio Gallego - Cloud CSE">
+    <title>3.2 Connectivity: East-West :: FortiGate auto-scale and AWS GWLB</title>
+    <link href="/tasks/42_connectivityew/index.xml" rel="alternate" type="application/rss+xml" title="3.2 Connectivity: East-West :: FortiGate auto-scale and AWS GWLB">
+    <link href="/tasks/42_connectivityew/index.print.html" rel="alternate" type="text/html" title="3.2 Connectivity: East-West :: FortiGate auto-scale and AWS GWLB">
+    <link href="/images/logo.svg?1710878531" rel="icon" type="image/svg+xml">
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="/css/fontawesome-all.min.css?1710878531" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1710878531" rel="stylesheet"></noscript>
+    <link href="/css/nucleus.css?1710878531" rel="stylesheet">
+    <link href="/css/auto-complete.css?1710878531" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1710878531" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1710878531" rel="stylesheet">
+    <link href="/css/fonts.css?1710878531" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1710878531" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1710878531" rel="stylesheet">
+    <link href="/css/theme-Workshop.css?1710878531" rel="stylesheet" id="variant-style">
+    <link href="/css/variant.css?1710878531" rel="stylesheet">
+    <link href="/css/print.css?1710878531" rel="stylesheet" media="print">
+    <link href="/css/ie.css?1710878531" rel="stylesheet">
+    <script src="/js/url.js?1710878531"></script>
+    <script src="/js/variant.js?1710878531"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      window.index_js_url="/index.search.js";
+      var root_url="/";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      window.T_No_results_found = 'No results found for \u0022{0}\u0022';
+      window.T_N_results_found = '{1} results found for \u0022{0}\u0022';
+      // some further base stuff
+      var baseUriFull='https:\/\/fortilatam.github.io/';
+      window.variants && variants.init( [ 'Workshop' ] );
+    </script><style>
+  :root {
+     
+    --fortinet-white: 255, 255, 255;
+    --fortinet-black: 0, 0, 0;
+    --fortinet-red: 218, 41, 28;
+    --fortinet-blue: 48, 127, 226;
+    --fortinet-green: 72, 213, 151;
+    --fortinet-teel: 44, 204, 211;
+    --fortinet-purple: 144, 99, 205;
+    --fortinet-silver: 162, 178, 200;
+    --fortinet-silver-jeffMAC: 159, 178, 199;
+    --fortinet-silver70: 77, 92, 102;
+    --fortinet-lightgray: 228, 228, 228;
+    --fortinet-gray: 179, 179, 179;
+
+    --PRIMARY-color: rgb(var(--theme-color)) !important;
+    --MAIN-BG-color: rgb(var(--fortinet-white)) !important;
+    --MAIN-TEXT-color: rgb(var(--fortinet-black)) !important;
+    --MAIN-font: inter, sans-serif;
+
+    --MAIN-LINK-color: #1C90F3 !important;
+     
+    --LINK-HOVER-color: #167ad0 !important;
+     
+
+    --MENU-SECTIONS-ACTIVE-BG-color: rgb(var(--fortinet-black)) !important;
+    --MENU-SECTIONS-BG-color: #312525;
+     
+    --MENU-SECTIONS-LINK-color: #ccc !important;
+    --MENU-SECTIONS-LINK-HOVER-color: #e6e6e6 !important;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #777;
+     
+    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #fff;
+     
+
+    --MENU-HEADER-BG-color: rgb(var(--theme-color)) !important;
+    --MENU-SEARCH-color: rgba(var(--fortinet-white)) !important;
+    --MENU-VISITED-color: rgb(var(--theme-color)) !important;
+
+     
+    --MENU-HOME-LINK-color: #ccc !important;
+     
+    --MENU-HOME-LINK-HOVER-color: rgba(var(--fortinet-white)) !important;
+     
+
+     
+    --BOX-WARNING-color: rgb(var(--fortinet-red)) !important;
+    --BOX-NOTE-color: rgb(var(--fortinet-teel)) !important;
+    --BOX-TIP-color: rgb(var(--fortinet-green)) !important;
+    --BOX-INFO-color: rgb(var(--fortinet-blue)) !important;
+
+     
+    --CODE-BLOCK-color: #e2e4e5 !important;
+     
+    --CODE-BLOCK-BG-color: rgb(var(--fortinet-gray)) !important;
+     
+    --CODE-BLOCK-BORDER-color: #282a36 !important;
+     
+
+     
+    --CODE-INLINE-color: #5e5e5e !important;
+     
+    --CODE-INLINE-BG-color: #fffae9 !important;
+     
+    --CODE-INLINE-BORDER-color: #f8e8c8 !important;
+     
+
+    --BROWSER-theme: light;
+     
+    --MERMAID-theme: default;
+     
+    --SWAGGER-theme: light;
+     
+  }
+
+  ::placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+    opacity: 1;
+     
+  }
+
+  :-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  ::-ms-input-placeholder {
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #title {
+    font-size: 1.5rem;
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #subtitle {
+    font-size: 1rem;
+     
+    color: rgb(var(--fortinet-white)) !important;
+  }
+
+  #sidebar .searchbox> :first-child,
+  #sidebar .searchbox button,
+  .searchbox span {
+    opacity: 1;
+  }
+
+  .searchbox {
+    border: 1px solid rgba(var(--theme-color), .85) !important;
+  }
+
+  .searchbox input {
+    background: rgba(var(--theme-color), .75) !important;
+  }
+
+  #header #logo {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 1300px) {
+
+     
+    #body .flex-block-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1300px;
+      width: 100%;
+    }
+  }
+</style>
+  </head>
+  <body class="mobile-support html" data-url="/tasks/42_connectivityew.html">
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div class="navigation">
+            <a class="nav nav-next topbar-link" href="/tasks/43_log4shellattack.html" title="3.3 IPS: Log4Shell attack (&#129106;)"><i class="fas fa-chevron-right fa-fw"></i></a>
+          </div>
+          <div class="navigation">
+            <a class="nav nav-prev topbar-link" href="/tasks/41_connectivityns.html" title="3.1 Connectivity: North-South (&#129104;)"><i class="fas fa-chevron-left fa-fw"></i></a>
+          </div>
+          <div id="top-print-link">
+            <a class="print-link topbar-link" title='Print whole chapter (CTRL+ALT+p)' href="/tasks/42_connectivityew/index.print.html">
+              <i class="fas fa-print fa-fw"></i>
+            </a>
+          </div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" class="topbar-link" title='Menu (CTRL+ALT+n)'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <span id="toc-menu" title='Table of Contents (CTRL+ALT+t)'><i class="fas fa-list-alt fa-fw"></i></span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/index.html"><span itemprop="name">1. Introduction</span></a><meta itemprop="position" content="1"> &gt; </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><a itemprop="item" href="/tasks.html"><span itemprop="name">3. Tasks</span></a><meta itemprop="position" content="2"> &gt; </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><span itemprop="name">3.2 Connectivity: East-West</span><meta itemprop="position" content="3"></li>
+            </ol>
+          </div>
+          <div class="default-animation progress">
+            <div class="toc-wrapper"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#traffic-inspection-between-vpcs">Traffic inspection between VPCs</a></li>
+        <li><a href="#traffic-inspection-between-subnets">Traffic inspection between subnets</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable default" tabindex="-1">
+        <div class="flex-block-wrapper">
+          <article class="default">
+            <header class="headline">
+            </header>
+<h1 id="32-connectivity-east-west">3.2 Connectivity: East-West</h1>
+
+<p>With the same FortiGate cluster, you can inspect the traffic between VPCs and subnets inside the same VPC.</p>
+<p>In this task you will test both scenarios.</p>
+<h3 id="traffic-inspection-between-vpcs">Traffic inspection between VPCs</h3>
+<ol>
+<li>
+<p>In AWS console, go to EC2 menu and click on &ldquo;Instances&rdquo;</p>
+</li>
+<li>
+<p>Click &ldquo;wk-spk1-pub-a&rdquo; and then click &ldquo;Connect&rdquo;
+
+<a href="#image-296cfdb8bd12c371d2e01c9c0865b4d1" class="lightbox-link">
+<img src="4_image1.png" alt="4 image1" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-296cfdb8bd12c371d2e01c9c0865b4d1">
+<img src="4_image1.png" alt="4 image1" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Click &ldquo;EC2 serial console&rdquo; and then &ldquo;Connect&rdquo;
+
+<a href="#image-20573393261db87a57ee15dc206d30fe" class="lightbox-link">
+<img src="4_image2.png" alt="4 image2" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-20573393261db87a57ee15dc206d30fe">
+<img src="4_image2.png" alt="4 image2" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>The login information is:
+user: <strong><code>student</code></strong>
+password: <strong><code>F0rt1n3t</code></strong></p>
+</li>
+<li>
+<p>Leave this console tab opened. Repeat the same process with the instance <em><strong>&ldquo;wk-spk2-pub-a&rdquo;</strong></em></p>
+</li>
+<li>
+<p>Using the console, ping one instance from another. Example: go to <em><strong>&ldquo;wk-spk2-pub-a&rdquo;</strong></em> console and ping <em><strong>&ldquo;wk-spk1-pub-a&rdquo;</strong></em> internal IP</p>
+</li>
+<li>
+<p>To see the internal IP from an EC2, go to AWS console &gt; EC2 &gt; Instances and select the instance. You will see the IP in the panel below</p>
+</li>
+</ol>
+<p>
+<a href="#image-f67cee4a41e458954fd5b8153ffe684f" class="lightbox-link">
+<img src="4_image9.png" alt="4 image9" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-f67cee4a41e458954fd5b8153ffe684f">
+<img src="4_image9.png" alt="4 image9" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="8">
+<li>Leave ping running and connect to FortiGate VM</li>
+</ol>
+<p>
+<a href="#image-2fddd4667296d57adecc1b907fee249b" class="lightbox-link">
+<img src="4_image10.png" alt="4 image10" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-2fddd4667296d57adecc1b907fee249b">
+<img src="4_image10.png" alt="4 image10" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="9">
+<li>Check the FortiGate. To see the FortiGate public IP, select the FortiGate, then click &ldquo;Networking&rdquo; tab and scroll down:</li>
+</ol>
+<p>
+<a href="#image-ef4f324f1ea723483b6fb10cc6ef5f26" class="lightbox-link">
+<img src="4_image5.png" alt="4 image5" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-ef4f324f1ea723483b6fb10cc6ef5f26">
+<img src="4_image5.png" alt="4 image5" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="10">
+<li>Copy this IP and in a new browser tab, paste it to access FortiGate GUI.</li>
+<li>FortiGate credentials are in Sharepoint page</li>
+<li>After you logged into FortiGate, go to &ldquo;Policy &amp; Objects&rdquo; &gt; &ldquo;Firewall Policy&rdquo;. You will see a rule allowing all the traffic from &ldquo;geneve-tunnels&rdquo; to &ldquo;geneve-tunnels&rdquo;. It means, all traffic flowing through the tunnels created when GWLB was deployed is allowed.</li>
+</ol>
+<p>
+<a href="#image-26fd667d340ce677532660511d0b74a1" class="lightbox-link">
+<img src="4_image11.png" alt="4 image11" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-26fd667d340ce677532660511d0b74a1">
+<img src="4_image11.png" alt="4 image11" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="13">
+<li>Now, change the status of this rule to disable. You will see the ping in <em><strong>&ldquo;wk-spk2-pub-a&rdquo;</strong></em> console will stop working.</li>
+</ol>
+<p>
+<a href="#image-46705ad75876326472eec84d099193a2" class="lightbox-link">
+<img src="4_image12.png" alt="4 image12" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-46705ad75876326472eec84d099193a2">
+<img src="4_image12.png" alt="4 image12" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="14">
+<li>You can always check if the traffic is coming to FortiGate using CLI and the command below (replace X.X.X.X with the IP you want to monitor):</li>
+</ol>
+<p><strong><code>diag sniffer packet any 'host X.X.X.X' 4</code></strong></p>
+<ol start="15">
+<li>Re-enable the firewall policy</li>
+</ol>
+<h3 id="traffic-inspection-between-subnets">Traffic inspection between subnets</h3>
+<p>In previous task you saw that FortiGate is inspecting the traffic between VPCs, but in some cases you want to inspect or restrict the traffic between subnets in the same VPC. For example: a subnet contains data information (eg. database) and the other subnet the application. You want the application subnet access the data, but not the other way around.</p>
+<p>To make it works, you will need to redirect the traffic to be inspected by FortiGate. To do so, you must use the route tables, where you point the destination as the subnet and the target as the GWLB Endpoint, that will forward the traffic to GWLB, then GWLB will forward the traffic to one FortiGate, where the traffic will be inspected and if it&rsquo;s allowed, it will return to the same path.</p>
+<p>In this demo, we configured <strong>spoke2-vpc</strong> to have inter-vpc traffic inspected. Let&rsquo;s see how it was configured.</p>
+<ol>
+<li>In AWS console, go to VPC (use the search bar)</li>
+<li>Go to Subnets menu and select <em><strong>&ldquo;spoke2-sub-pub1-a&rdquo;</strong></em>. This is the subnet where <em><strong>&ldquo;wk-spk2-pub-a&rdquo;</strong></em> is hosted.</li>
+<li>Click &ldquo;Route table&rdquo;. It will load the route table for this subnet. You can see the destination CIDR&rsquo;s and the Target. Note there is a destination as <em><strong>10.30.128.0/20</strong></em> that is the CIDR from <em><strong>&ldquo;spoke2-sub-pri1-a&rdquo;</strong></em> pointing to vpce-xxxxxxx, this is the GWLB Endpoint. So when this subnet access the <em><strong>&ldquo;spoke2-sub-pri1-a&rdquo;</strong></em> the traffic will be inspected by FortiGate.</li>
+</ol>
+<p>
+<a href="#image-47861d2bfc969bf9783085896db20848" class="lightbox-link">
+<img src="4_image13.png" alt="4 image13" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-47861d2bfc969bf9783085896db20848">
+<img src="4_image13.png" alt="4 image13" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="4">
+<li>Now, go to EC2 menu and click on &ldquo;Instances&rdquo;</li>
+<li>Click &ldquo;wk-spk2-pri-a&rdquo; and copy its private IP</li>
+</ol>
+<p>
+<a href="#image-6a60fb4619776a65b5a7d5063baa1ca6" class="lightbox-link">
+<img src="4_image14.png" alt="4 image14" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-6a60fb4619776a65b5a7d5063baa1ca6">
+<img src="4_image14.png" alt="4 image14" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="5">
+<li>Click &ldquo;wk-spk2-pub-a&quot;and then click &ldquo;Connect&rdquo;</li>
+<li>Click &ldquo;EC2 serial console&rdquo; and then &ldquo;Connect&rdquo;</li>
+<li>The login information is:</li>
+</ol>
+<p>user: <strong><code>student</code></strong>
+password: <strong><code>F0rt1n3t</code></strong></p>
+<ol start="8">
+<li>
+<p>Ping the IP copied from <strong>step 5</strong>
+
+<a href="#image-ef7e960a66b7d5298b0469d2d1ef5ac8" class="lightbox-link">
+<img src="4_image15.png" alt="4 image15" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-ef7e960a66b7d5298b0469d2d1ef5ac8">
+<img src="4_image15.png" alt="4 image15" class="lightbox-image" loading="lazy">
+</a></p>
+</li>
+<li>
+<p>Check the FortiGate. To see the FortiGate public IP, select the FortiGate, then click &ldquo;Networking&rdquo; tab and scroll down:</p>
+</li>
+</ol>
+<p>
+<a href="#image-e2e2ded88dff610501262b1121c1914b" class="lightbox-link">
+<img src="4_image5.png" alt="4 image5" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-e2e2ded88dff610501262b1121c1914b">
+<img src="4_image5.png" alt="4 image5" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="10">
+<li>Copy this IP and in a new browser tab, paste it to access FortiGate GUI.</li>
+<li>FortiGate credentials are in Sharepoint page</li>
+<li>After you logged into FortiGate, go to &ldquo;Policy &amp; Objects&rdquo; &gt; &ldquo;Firewall Policy&rdquo;. You will see a rule allowing all the traffic from &ldquo;geneve-tunnels&rdquo; to &ldquo;geneve-tunnels&rdquo;. It means, all traffic flowing through the tunnels created when GWLB was deployed is allowed.</li>
+</ol>
+<p>
+<a href="#image-41b8b70bccb8f2fa6d2c77b296888b41" class="lightbox-link">
+<img src="4_image11.png" alt="4 image11" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-41b8b70bccb8f2fa6d2c77b296888b41">
+<img src="4_image11.png" alt="4 image11" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="13">
+<li>Now, change the status of this rule to disable. You will see the ping in <em><strong>&ldquo;wk-spk2-pub-a&rdquo;</strong></em> console will stop working.</li>
+</ol>
+<p>
+<a href="#image-d1f934125c0581d6f35a6cd06af12ef3" class="lightbox-link">
+<img src="4_image12.png" alt="4 image12" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-d1f934125c0581d6f35a6cd06af12ef3">
+<img src="4_image12.png" alt="4 image12" class="lightbox-image" loading="lazy">
+</a></p>
+<ol start="14">
+<li>You can always check if the traffic is coming to FortiGate using CLI and the command below (replace X.X.X.X with the IP you want to monitor):</li>
+</ol>
+<p><strong><code>diag sniffer packet any 'host X.X.X.X' 4</code></strong></p>
+<ol start="15">
+<li>You can create and modify FortiGate firewall rules, so try to block ping, or some service, etc. This was only to demo the traffic being inspected and to make it simple, we enabled/disabled rules, but you can implement more sophisticated rules with this same principle.</li>
+<li>Re-enable the firewall policy and return FortiGate rules to original state</li>
+</ol>
+<p>
+<a href="#image-39c03ae7648867bef9fd8661e1de9be3" class="lightbox-link">
+<img src="4_image8.png" alt="4 image8" style="height: auto; width: auto;" loading="lazy">
+</a>
+<a href="javascript:history.back();" class="lightbox" id="image-39c03ae7648867bef9fd8661e1de9be3">
+<img src="4_image8.png" alt="4 image8" class="lightbox-image" loading="lazy">
+</a></p>
+
+            <footer class="footline">
+
+            </footer>
+          </article>
+        </div>
+      </main>
+    </div>
+    <aside id="sidebar" class="default-animation showVisitedLinks">
+      <div id="header-wrapper" class="default-animation">
+        <div id="header" class="default-animation">
+<a id="logo" href='/index.html' title="Fortinet CSE Americas International">
+    
+    <img style="vertical-align:middle" src="/images/white-logo.svg" height="70px">
+    
+
+    
+        <logoBanner id="title"> FortiGate auto-scale and AWS GWLB </logoBanner>
+    
+
+        <logoBannerFreeForm id="subtitle"> Walkthrough demos </logoBannerFreeForm>
+</a>
+
+        </div>
+        <div class="searchbox default-animation">
+          <i class="fas fa-search" title="Search (CTRL+ALT+f)"></i>
+          <label class="a11y-only" for="search-by">Search</label>
+          <input data-search-input id="search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+          <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+        </div>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="/js/auto-complete.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.min.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.stemmer.support.min.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.multi.min.js?1710878531" defer></script>
+        <script src="/js/lunr/lunr.en.min.js?1710878531" defer></script>
+        <script src="/js/search.js?1710878531" defer></script>
+      </div>
+      <div id="content-wrapper" class="highlightable">
+        <ul class="topics enlarge morespace">
+          <li data-nav-id="/prereq.html" class=""><a class="padding" href="/prereq.html">1. Pre-requisites<i class="fas fa-check read-icon"></i></a><ul id="subsections-4e020f31de051a3c7c932827b5eff918" class="morespace">
+          <li data-nav-id="/prereq/21_logistics.html" class=""><a class="padding" href="/prereq/21_logistics.html">1.1 Demo Logistics<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/prereq/22_awsnetworkingconcepts.html" class=""><a class="padding" href="/prereq/22_awsnetworkingconcepts.html">1.2 AWS Networking Concepts<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/demohandson.html" class=""><a class="padding" href="/demohandson.html">2. Hands-on<i class="fas fa-check read-icon"></i></a><ul id="subsections-cd6a46b98b02b9561f442de229483bd6" class="morespace">
+          <li data-nav-id="/demohandson/31_starttheresources.html" class=""><a class="padding" href="/demohandson/31_starttheresources.html">Start the resources<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/tasks.html" class="parent "><a class="padding" href="/tasks.html">3. Tasks<i class="fas fa-check read-icon"></i></a><ul id="subsections-2d24400f79d503e4a5f64201089f7b4c" class="morespace">
+          <li data-nav-id="/tasks/41_connectivityns.html" class=""><a class="padding" href="/tasks/41_connectivityns.html">3.1 Connectivity: North-South<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/tasks/42_connectivityew.html" class="active"><a class="padding" href="/tasks/42_connectivityew.html">3.2 Connectivity: East-West<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/tasks/43_log4shellattack.html" class=""><a class="padding" href="/tasks/43_log4shellattack.html">3.3 IPS: Log4Shell attack<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/cleanup.html" class=""><a class="padding" href="/cleanup.html">4. Clean up<i class="fas fa-check read-icon"></i></a></li>
+        </ul>
+        <div id="shortcuts">
+          <div class="nav-title padding">More</div>
+          <ul class="space">
+            <li><a class="padding" href="https://aws.amazon.com/marketplace/search/results?searchTerms=fortinet"><i class='fas fa-tools'></i> AWS MP Listings for Fortinet</a></li>
+            <li><a class="padding" href="https://fortinet.com/aws"><i class='far fa-lightbulb'></i> Fortinet's AWS Microsite</a></li>
+            <li><a class="padding" href="https://docs.fortinet.com/cloud-solutions/aws"><i class='far fa-lightbulb'></i> Fortinet in AWS Docs</a></li>
+          </ul>
+        </div>
+        <div class="padding footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVisitedLinks showFooter"></div>
+        <hr class="padding default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showVisitedLinks showFooter">
+        <div id="prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showVisitedLinks">
+          <ul>
+            <li id="select-language-container" class="footerLangSwitch">
+              <div class="padding menu-control">
+                <i class="fas fa-language fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="select-language">Language</label>
+                  <select id="select-language" onchange="location = baseUri + this.value;">
+                    <option lang="en" id="en" value="/tasks/42_connectivityew.html" selected></option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+            <li id="select-variant-container" class="footerVariantSwitch">
+              <div class="padding menu-control">
+                <i class="fas fa-paint-brush fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <label class="a11y-only" for="select-variant">Theme</label>
+                  <select id="select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                    <option id="Workshop" value="Workshop" selected>Workshop</option>
+                  </select>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>window.variants && variants.markSelectedVariant();</script>
+            </li>
+            <li class="footerVisitedLinks showVisitedLinks">
+              <div class="padding menu-control">
+                <i class="fas fa-history fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="control-style">
+                  <button onclick="clearHistory();">Clear History</button>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div id="footer" class="footerFooter showFooter"><style>
+	#footer {
+	  font-size: .8125rem;
+	  height: 6.25rem;
+	  margin-left: auto;
+	  margin-right: auto;
+	  padding: 2rem 1rem;
+	  text-align: center;
+	  min-width: 14.375rem;
+	  max-width: 18.75rem;
+	}
+	#footer p {
+	  margin: 0;
+	}
+  </style>
+
+<left>
+
+<a href="https://www.fortinet.com/corporate/about-us/privacy" target="_blank" rel="noreferrer noopener">Privacy</a> | <a
+href="https://www.fortinet.com/corporate/about-us/legal" target="_blank" rel="noreferrer noopener">Site Terms</a> | <a
+href="https://www.fortinet.com/corporate/about-us/about-us" target="_blank" rel="noreferrer noopener">About Us</a> | <a
+href="/auth?slo">Log out</a>
+
+</left>
+        </div>
+      </div>
+    </aside>
+    <script src="/js/clipboard.min.js?1710878531" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1710878531" defer></script>
+    <script src="/js/theme.js?1710878531" defer></script>
+  </body>
+</html>

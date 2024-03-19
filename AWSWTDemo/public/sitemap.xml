@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://fortilatam.github.io/prereq.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/prereq/21_logistics.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/index.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/prereq/22_awsnetworkingconcepts.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/demohandson.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/demohandson/31_starttheresources.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/tasks.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/tasks/41_connectivityns.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/tasks/42_connectivityew.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/tasks/43_log4shellattack.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/cleanup.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/categories.html</loc>
+  </url>
+  <url>
+    <loc>https://fortilatam.github.io/tags.html</loc>
+  </url>
+</urlset>

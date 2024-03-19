@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>3. Tasks on FortiGate auto-scale and AWS GWLB</title>
+    <link>https://fortilatam.github.io/tasks.html</link>
+    <description>Recent content in 3. Tasks on FortiGate auto-scale and AWS GWLB</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://fortilatam.github.io/tasks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3.1 Connectivity: North-South</title>
+      <link>https://fortilatam.github.io/tasks/41_connectivityns.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/tasks/41_connectivityns.html</guid>
+      <description>When using FortiGate with GWLB you can save money and not using NAT Gateways. NAT GW&amp;rsquo;s are charge for hour and usage, with the scenario you have here, the FortiGate can be your NAT Gateway for all the VPCs connected.
+NAT Gateways are used by private instances, what I mean is, the instances that don&amp;rsquo;t have public IPs. Instances that have public IP use IGW (Internet Gateway) to go to internet.</description>
+    </item>
+    <item>
+      <title>3.2 Connectivity: East-West</title>
+      <link>https://fortilatam.github.io/tasks/42_connectivityew.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/tasks/42_connectivityew.html</guid>
+      <description>With the same FortiGate cluster, you can inspect the traffic between VPCs and subnets inside the same VPC.
+In this task you will test both scenarios.
+Traffic inspection between VPCs In AWS console, go to EC2 menu and click on &amp;ldquo;Instances&amp;rdquo;
+Click &amp;ldquo;wk-spk1-pub-a&amp;rdquo; and then click &amp;ldquo;Connect&amp;rdquo; Click &amp;ldquo;EC2 serial console&amp;rdquo; and then &amp;ldquo;Connect&amp;rdquo; The login information is: user: student password: F0rt1n3t
+Leave this console tab opened. Repeat the same process with the instance &amp;ldquo;wk-spk2-pub-a&amp;rdquo;</description>
+    </item>
+    <item>
+      <title>3.3 IPS: Log4Shell attack</title>
+      <link>https://fortilatam.github.io/tasks/43_log4shellattack.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://fortilatam.github.io/tasks/43_log4shellattack.html</guid>
+      <description>Log4Shell is a zero-day vulnerability with a CVSS severity rating of 10 and it was largely explored few years ago&amp;hellip; and continues to these days. In this lab you will perform some attacks and block it using FGT.
+The first thing we need to do is to start a Docker container with the vulnerable application
+In AWS console, go to EC2 menu and click on &amp;ldquo;Instances&amp;rdquo;
+Click &amp;ldquo;wk-spk1-pub-a&amp;rdquo; and then click &amp;ldquo;Connect&amp;rdquo; Click &amp;ldquo;EC2 serial console&amp;rdquo; and then &amp;ldquo;Connect&amp;rdquo; The login information is:</description>
+    </item>
+  </channel>
+</rss>
