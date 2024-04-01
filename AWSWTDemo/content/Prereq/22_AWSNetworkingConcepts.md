@@ -1,5 +1,5 @@
 ---
-title: "1.2 AWS Networking Concepts"
+title: "1.1 AWS Networking Concepts"
 weight: 2
 ---
 
@@ -29,7 +29,10 @@ An **Internet Gateway (IGW)** is a horizontally scaled, redundant, and highly av
 
 In this demo you will use all these components to test FortiGate VM in an enterprise design. 
 
-For a deep dive on AWS networking concepts in your own lab, outside of this event, you can follow the [**AWS Network Immersion Day workshop**](https://catalog.workshops.aws/networking/en-US) in your own AWS account at your leisure.
+For a deep dive on AWS networking concepts in your own lab, outside of this demo, you can follow the [**AWS Network Immersion Day workshop**](https://catalog.workshops.aws/networking/en-US) in your own AWS account at your leisure.
+
+If you want to read more about AWS network elements, [**click here**](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html)
+
 
 ### Check this example to understand the packet walk in a GWLB deployment
 

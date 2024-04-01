@@ -3,7 +3,7 @@ title: "Start the resources"
 weight: 2
 ---
 
-Every night (GMT-3 timezone) the EC2 instances are shutdown to save money and the FortiGate ASGs are set to zero, so if you enter in the AWS account is probably that there is somebody else using it, *because I doubt somebody used the environment and forgot to shutdown, right?* :D
+Every night (GMT-3 timezone) the EC2 instances are shutdown to save money and the FortiGate ASGs are set to zero, so if you enter in the AWS account and see the EC2 running, it is probably that there is somebody else using it, *because I doubt somebody used the environment and forgot to shutdown, right?* :D
 
 So, the first thing you will need to do, after logged into AWS account, is:
 
@@ -21,9 +21,14 @@ So, the first thing you will need to do, after logged into AWS account, is:
 5. Set "Desired Capacity" at 1 and click "Update"
 ![3 image4](3_image4.png)
 
-6. With this only one FortiGate instance will be created. This is enough for the demo, in the real environment, it is recommended to have one per AZ used.
+6. With this only one FortiGate instance will be created
+
+{{% notice %}}
+This is enough for the demo, in the real environment, it is recommended to have one per AZ used.
+{{% /notice %}}
+
 7. Go to "Instances" menu. You will see a FortiGate instance running (wait 3-5 minutes before accessing it). In this process the FortiGate is being licensed using [FortiFlex](https://www.fortinet.com/products/fortiflex)  
-8. In the same page, start the other instances. To do so, check all of them, click "Instance state" button and click on "Start instance"
+8. In the same page, start the other instances. To do so, check all of them, click "Instance state" button and click on "Start instance".
 
 ![3 image5](3_image5.png)
-9. Now you are good to start the tasks
+9. Now you are good to start the tasks. 

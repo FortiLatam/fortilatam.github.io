@@ -20,4 +20,9 @@ This is the topology you will find:
 
 Let's begin!
 
+You can browse using the content menu in the left or the arrows in top right corner.
+
+{{% notice %}}
+If you can finish your lab in the same day, it will be stopped/deleted during the night. Please don't forget to stop the EC2 before leaving.
+{{% /notice %}}
 
